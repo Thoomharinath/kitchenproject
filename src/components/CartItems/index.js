@@ -7,10 +7,10 @@ const CartItems = props => {
   return (
     <li className="list-cart">
       <div className="cart-name-img">
-        <img src={imageUrl} alt="cart-img" className="cart-image" />
-        <p className="cart-item-name">{name}</p>
+        <img src={imageUrl} alt="restaurant-id" className="cart-image" />
+        <h1 className="cart-item-name">{name}</h1>
       </div>
-      <Counter itemDetails={items} />
+      <Counter itemDetails={items} home="cart" />
       <p className="cost-total">₹ {quantity * cost}</p>
     </li>
   )

@@ -18,7 +18,7 @@ class Counter extends Component {
 
     if (cartData !== null) {
       const object = cartData.filter(each => each.name === itemDetails.name)
-      //  console.log(object[0].quantity, 'hahgjhv')
+      //  console.log(object[0].quantity)
       this.setState({cartValue: object[0].quantity})
     } else {
       this.setState({cartValue: ''})
@@ -76,23 +76,29 @@ class Counter extends Component {
             )
           }
           // const {cartValue} = this.state
+          const {home} = this.props
+          const incBtn =
+            home === 'cart' ? 'increment-quantity' : 'increment-count'
+          console.log(incBtn)
+          const descBtn =
+            home === 'cart' ? 'decrement-quantity' : 'decrement-count'
           return (
             <div className="button-container">
               <button
                 type="button"
                 onClick={onDecrement}
-                testid="decrement-count"
+                testid={descBtn}
                 className="minus-btn"
               >
                 -
               </button>
               <div className="cart-value" testid="active-count">
-                {cartValue}
+                <p testid="active-count"> {cartValue}</p>
               </div>
               <button
                 type="button"
                 onClick={onIncrement}
-                testid="increment-count"
+                testid={incBtn}
                 className="plus-btn"
               >
                 +

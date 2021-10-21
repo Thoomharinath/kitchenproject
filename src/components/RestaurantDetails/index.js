@@ -2,9 +2,9 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import Footer from '../Footer'
-import Navbar from '../Navbar'
+import Header from '../Header'
 import RestaurantItems from '../RestaurantItems'
-import KitchenContext from '../../KitchenContext'
+
 import './index.css'
 
 class RestaurantDetails extends Component {
@@ -43,12 +43,18 @@ class RestaurantDetails extends Component {
     })
   }
 
+  getFailure = () => {
+    const {history} = this.props
+    console.log(history)
+    history.replace('/not-found')
+  }
+
   restaurantDetails = async () => {
     const {match} = this.props
     const {params} = match
     const {id} = params
     const restaurantId = Number(id)
-    console.log(typeof id, typeof restaurantId)
+    // console.log(typeof id, typeof restaurantId)
 
     const token = Cookies.get('jwt_token')
     const options = {
@@ -62,7 +68,7 @@ class RestaurantDetails extends Component {
 
     const response = await fetch(url, options)
     const data = await response.json()
-    console.log(data)
+    //  console.log(data)
     if (response.ok === true) {
       this.updatedResList(data)
     } else {
@@ -104,7 +110,7 @@ class RestaurantDetails extends Component {
           </div>
         </div>
         <div className="res-main-item-container">
-          <ul className="res-item-container">
+          <ul className="res-item-container" testid="foodItem">
             {dataResList.map(each => (
               <RestaurantItems key={each.id} resList={each} />
             ))}
@@ -115,14 +121,11 @@ class RestaurantDetails extends Component {
   }
 
   loader = () => (
-    <div className="products-loader-container">
-      <Loader
-        type="Spinner"
-        color="#0b69ff"
-        height="50"
-        width="50"
-        testid="restaurant-details-loader"
-      />
+    <div
+      className="products-loader-container"
+      testid="restaurants-details-loader"
+    >
+      <Loader type="Oval" color="orange" height={50} width={50} />
     </div>
   )
 
@@ -143,19 +146,11 @@ class RestaurantDetails extends Component {
   render() {
     // console.log('kumar')
     return (
-      <KitchenContext.Consumer>
-        {value => {
-          const {localData} = value
-          console.log(localData)
-          return (
-            <div>
-              <Navbar home="home" />
-              {this.loadingStatus()}
-              <Footer />
-            </div>
-          )
-        }}
-      </KitchenContext.Consumer>
+      <div>
+        <Header home="home" />
+        {this.loadingStatus()}
+        <Footer />
+      </div>
     )
   }
 }

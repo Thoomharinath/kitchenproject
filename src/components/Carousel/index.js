@@ -1,11 +1,12 @@
 import Slider from 'react-slick'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 
 import './index.css'
 
 class Carousel extends Component {
-  state = {imagesList: []}
+  state = {imagesList: [], status: 'progress'}
 
   componentDidMount() {
     this.getCarousel()
@@ -23,10 +24,11 @@ class Carousel extends Component {
     const response = await fetch(url, options)
     const data = await response.json()
     console.log(data)
-    this.setState({imagesList: data.offers})
+    this.setState({imagesList: data.offers, status: 'success'})
   }
 
-  render() {
+  getList = () => {
+    const {imagesList} = this.state
     const settings = {
       dots: true,
       infinite: true,
@@ -38,21 +40,49 @@ class Carousel extends Component {
       cssEase: 'linear',
     }
 
-    const {imagesList} = this.state
     return (
-      <div className="container">
-        <Slider {...settings} className="carousel-container">
-          {imagesList.map(each => (
-            <div className="carousel">
-              <img
-                src={each.image_url}
-                alt="offer"
-                className="carousel-img"
-                key={each.id}
-              />
-            </div>
-          ))}
-        </Slider>
+      <Slider {...settings} className="carousel-container">
+        {imagesList.map(each => (
+          <div className="carousel" key={each.id}>
+            <img
+              src={each.image_url}
+              alt="offer"
+              className="carousel-img"
+              key={each.id}
+            />
+          </div>
+        ))}
+      </Slider>
+    )
+  }
+
+  loader = () => (
+    <div
+      className="products-loader-container"
+      testid="restaurants-offers-loader"
+    >
+      <Loader type="Oval" color="orange" height="50" width="50" />
+    </div>
+  )
+
+  loadingStatus = () => {
+    const {status} = this.state
+    switch (status) {
+      case 'success':
+        return this.getList()
+      case 'progress':
+        return this.loader()
+      case 'failure':
+        return this.failure()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    return (
+      <div className="container" testid="restaurants-offers-loader">
+        {this.loadingStatus()}
       </div>
     )
   }

@@ -1,6 +1,7 @@
+import {Link} from 'react-router-dom'
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
-import Navbar from '../Navbar'
+import Header from '../Header'
 import Footer from '../Footer'
 import CartItems from '../CartItems'
 import './index.css'
@@ -25,11 +26,6 @@ class Cart extends Component {
     this.setState({order: false})
   }
 
-  goHomeBtn = () => {
-    const {history} = this.props
-    history.replace('/')
-  }
-
   successPage = () => {
     localStorage.clear()
 
@@ -39,30 +35,27 @@ class Cart extends Component {
           src="https://res.cloudinary.com/dydlvwdqp/image/upload/v1634229200/Vector_1_duq9qs.jpg"
           alt="empty cart"
         />
-        <p className="payment-name">Payment Successful</p>
+        <h1 className="payment-name">Payment Successful</h1>
         <p className="greet">
           Thank you for ordering Your payment is successfully completed.
         </p>
-        <button type="button" onClick={this.goHomeBtn} className="home-btn">
-          Go to Home Page
-        </button>
+        <Link to="/">
+          <button type="button" className="home-btn">
+            Go to Home Page
+          </button>
+        </Link>
       </div>
     )
   }
 
   loader = () => (
     <div className="products-loader-container">
-      <Loader type="Spinner" color="#0b69ff" height="50" width="50" />
+      <Loader type="Oval" color="orange" height="50" width="50" />
     </div>
   )
 
   getData = () => {
     this.setState({status: 'success'})
-  }
-
-  orderBtn = () => {
-    const {history} = this.props
-    history.replace('/')
   }
 
   getEmpty = () => (
@@ -72,13 +65,15 @@ class Cart extends Component {
         alt="empty cart"
         className="no-order-img"
       />
-      <h1 className="no-order">No Orders Yet!</h1>
+      <h1 className="no-order">No Order Yet!</h1>
       <p className="cart-suggest">
         Your cart is empty. Add something from the menu.
       </p>
-      <button type="button" className="order-now-btn" onClick={this.orderBtn}>
-        Order Now
-      </button>
+      <Link to="/">
+        <button type="button" className="order-now-btn">
+          Order Now
+        </button>
+      </Link>
     </div>
   )
 
@@ -106,9 +101,11 @@ class Cart extends Component {
                 </ul>
                 <hr className="cart-line" />
                 <div className="order-summary">
-                  <p className="order-name">Order Total:</p>
+                  <h1 className="order-name">Order Total:</h1>
                   <div className="place-order-cont">
-                    <p className="final-amount">₹ {this.totalAmount(list)}</p>
+                    <p className="final-amount" testid="total-price">
+                      ₹ {this.totalAmount(list)}
+                    </p>
                     <button
                       type="button"
                       className="place-order-btn"
@@ -147,7 +144,7 @@ class Cart extends Component {
   render() {
     return (
       <div>
-        <Navbar home="cart" />
+        <Header home="cart" />
         <div>{this.loadingStatus()}</div>
       </div>
     )

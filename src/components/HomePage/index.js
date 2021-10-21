@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {IoIosArrowBack, IoIosArrowForward} from 'react-icons/io'
 import {MdSort} from 'react-icons/md'
-import Navbar from '../Navbar'
+import Header from '../Header'
 import Carousel from '../Carousel'
 import RestaurantList from '../RestaurantList'
 import KitchenContext from '../../KitchenContext'
@@ -49,7 +49,7 @@ class Home extends Component {
 
     const response = await fetch(url, options)
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
     if (response.ok === true) {
       this.updatedList(data.restaurants)
     } else {
@@ -66,16 +66,16 @@ class Home extends Component {
   )
 
   loader = () => (
-    <div className="products-loader-container">
-      <Loader
-        type="Spinner"
-        color="#0b69ff"
-        height="50"
-        width="50"
-        testid="restaurants-offers-loader"
-      />
+    <div className="products-loader-container" testid="restaurants-list-loader">
+      <Loader type="Oval" color="orange" height="50" width="50" />
     </div>
   )
+
+  failure = () => {
+    const {history} = this.props
+    console.log(history)
+    history.replace('/not-found')
+  }
 
   loadingStatus = () => {
     const {status, resList} = this.state
@@ -118,7 +118,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Navbar home="home" />
+        <Header home="home" />
         <Carousel />
         <div>
           <KitchenContext.Consumer>
@@ -143,14 +143,15 @@ class Home extends Component {
                       </p>
                       <div className="sort-cont">
                         <MdSort className="sort-icon" />
+                        <p>Sort By</p>
                         <select
                           value={sortValue}
                           onChange={onSelect}
                           className="select-sort"
                         >
                           {sortByOptions.map(each => (
-                            <option value={each.value}>
-                              Sort by {each.displayText}
+                            <option value={each.value} key={each.id}>
+                              {each.displayText}
                             </option>
                           ))}
                         </select>

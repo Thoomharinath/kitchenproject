@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import {Component} from 'react'
 import Home from './components/HomePage'
 import Login from './components/LoginPage'
@@ -24,7 +24,7 @@ const sortByOptions = [
 ]
 
 class App extends Component {
-  state = {addBtn: false, localData: []}
+  state = {addBtn: false, temporaryData: []}
 
   onAddBtn = list => {
     const localData1 = localStorage.getItem('cartData')
@@ -34,8 +34,8 @@ class App extends Component {
       const cartItemData = []
       cartItemData.push({...list, quantity: 1})
       // console.log(cartItemData)
-      localStorage.setItem('cartData', JSON.stringify(cartItemData))
-      this.setState({localData: cartItemData})
+      //  localStorage.setItem('cartData', JSON.stringify(cartItemData))
+      this.setState({temporaryData: cartItemData, addBtn: true})
     } else {
       const object = localData.find(each => each.name === list.name)
       if (object) {
@@ -46,13 +46,13 @@ class App extends Component {
           }
           return each
         })
-        localStorage.setItem('cartData', JSON.stringify(cartItems))
-        this.setState({localData: cartItems})
+        //   localStorage.setItem('cartData', JSON.stringify(cartItems))
+        this.setState({temporaryData: cartItems, addBtn: true})
       } else {
         localData.push({...list, quantity: 1})
         //  console.log(localData)
-        localStorage.setItem('cartData', JSON.stringify(localData))
-        this.setState({localData})
+        //   localStorage.setItem('cartData', JSON.stringify(localData))
+        this.setState({temporaryData: localData, addBtn: true})
       }
     }
   }
@@ -61,12 +61,8 @@ class App extends Component {
     const {name} = itemDetails
     const data = localStorage.getItem('cartData')
     const parsedData = JSON.parse(data)
-    //  const item = parsedData.filter(each => each.name === name)
-    // console.log(item, 'hari')
 
     const cartItemData = parsedData.map(each => {
-      // console.log(cartValue)
-      // console.log(each.name, name)
       if (each.name === name) {
         const count = cartValue
         //  console.log(count)
@@ -75,60 +71,62 @@ class App extends Component {
       return each
     })
     //  console.log(cartValue)
-    localStorage.setItem('cartData', JSON.stringify(cartItemData))
-    this.setState({localData: cartItemData})
+    //  localStorage.setItem('cartData', JSON.stringify(cartItemData))
+    this.setState({temporaryData: cartItemData, addBtn: true})
   }
 
   removeItem = (data1, name) => {
     const newData = data1.filter(each => each.name !== name)
 
-    localStorage.setItem('cartData', JSON.stringify(newData))
-    this.setState({localData: newData})
+    //  localStorage.setItem('cartData', JSON.stringify(newData))
+    this.setState({temporaryData: newData, addBtn: true})
   }
 
   checkZero = itemDetails => {
-    const {localData} = this.state
-    const result1 = localData.filter(each => each.name !== itemDetails.name)
+    const {temporaryData} = this.state
+    const result1 = temporaryData.filter(each => each.name !== itemDetails.name)
 
-    localStorage.setItem('cartData', JSON.stringify(result1))
-    this.setState({localData: result1})
+    // localStorage.setItem('cartData', JSON.stringify(result1))
+    this.setState({temporaryData: result1, addBtn: true})
   }
 
   stateEmpty = () => {
-    this.setState({localData: []})
+    this.setState({temporaryData: [], addBtn: true})
   }
 
   render() {
-    const {addBtn, localData} = this.state
+    const {addBtn, temporaryData} = this.state
+    if (addBtn) {
+      localStorage.setItem('cartData', JSON.stringify(temporaryData))
+    }
 
     return (
-      <BrowserRouter>
+      <KitchenContext.Provider
+        value={{
+          sortByOptions,
+          filter: this.filter,
+          onAddBtn: this.onAddBtn,
+          addBtn,
+          updateLocalData: this.updateLocalData,
+          temporaryData,
+          removeItem: this.removeItem,
+          checkZero: this.checkZero,
+          stateEmpty: this.stateEmpty,
+        }}
+      >
         <Switch>
           <Route exact path="/login" component={Login} />
-          <KitchenContext.Provider
-            value={{
-              sortByOptions,
-              filter: this.filter,
-              onAddBtn: this.onAddBtn,
-              addBtn,
-              updateLocalData: this.updateLocalData,
-              localData,
-              removeItem: this.removeItem,
-              checkZero: this.checkZero,
-              stateEmpty: this.stateEmpty,
-            }}
-          >
-            <ProtectedRoute exact path="/" component={Home} />
-            <ProtectedRoute
-              exact
-              path="/restaurants/:id"
-              component={RestaurantDetails}
-            />
-            <ProtectedRoute exact path="/cart" component={Cart} />
-          </KitchenContext.Provider>
-          <Route component={NotFound} />
+          <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute
+            exact
+            path="/restaurants/:id"
+            component={RestaurantDetails}
+          />
+          <ProtectedRoute exact path="/cart" component={Cart} />
+          <ProtectedRoute exact path="/not-found" component={NotFound} />
+          <Redirect to="/not-found" component={NotFound} />
         </Switch>
-      </BrowserRouter>
+      </KitchenContext.Provider>
     )
   }
 }

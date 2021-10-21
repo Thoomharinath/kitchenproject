@@ -3,7 +3,13 @@ import React from 'react'
 const KitchenContext = React.createContext({
   addBtn: false,
   filter: () => {},
-  onaddBtn: () => {},
+  onAddBtn: () => {},
+  sortByOptions: [],
+  temporaryData: [],
+  removeItem: () => {},
+  updateLocalData: () => {},
+  checkZero: () => {},
+  stateEmpty: () => {},
 })
 
 export default KitchenContext

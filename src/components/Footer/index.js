@@ -1,6 +1,9 @@
-import {FaPinterestP, FaFacebookF} from 'react-icons/fa'
-import {SiInstagram} from 'react-icons/si'
-import {BsTwitter} from 'react-icons/bs'
+import {
+  FaFacebookSquare,
+  FaTwitter,
+  FaPinterestSquare,
+  FaInstagram,
+} from 'react-icons/fa'
 import './index.css'
 
 export default function Footer() {
@@ -13,16 +16,19 @@ export default function Footer() {
           className="logi"
         />
 
-        <h1 className="kitchen-name">Tasty Kitchens </h1>
+        <h1 className="kitchen-name">Tasty Kitchen </h1>
       </div>
       <p className="footer-para">
-        The only thing we are serious about is food.
+        The only thing we are serious about is food. Contact us on
       </p>
       <div className="font-container">
-        <FaPinterestP className="pinterest" testid="pintrest-social-icon" />
-        <SiInstagram className="insta" testid="instagram-social-icon" />
-        <BsTwitter className="twitter" testid="twitter-social-icon" />
-        <FaFacebookF className="facebook" testid="facebook-social-icon" />
+        <FaPinterestSquare
+          className="pinterest"
+          testid="pintrest-social-icon"
+        />
+        <FaInstagram className="insta" testid="instagram-social-icon" />
+        <FaTwitter className="twitter" testid="twitter-social-icon" />
+        <FaFacebookSquare className="facebook" testid="facebook-social-icon" />
       </div>
     </div>
   )

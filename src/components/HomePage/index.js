@@ -30,6 +30,7 @@ class Home extends Component {
       imageUrl: each.image_url,
       id: each.id,
       cuisine: each.cuisine,
+      review: each.user_rating.total_reviews,
     }))
     this.setState({resList: data, status: 'success'})
   }
@@ -170,9 +171,11 @@ class Home extends Component {
                       >
                         <IoIosArrowBack />
                       </button>
-                      <p className="page-numbers" testid="active-page-number">
-                        {activePage} to 4
-                      </p>
+                      <div>
+                        <p testid="active-page-number" className="page-numbers">
+                          {activePage}
+                        </p>
+                      </div>
                       <button
                         type="button"
                         onClick={this.nextButton}

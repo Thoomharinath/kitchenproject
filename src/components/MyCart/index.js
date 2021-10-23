@@ -49,7 +49,7 @@ class Cart extends Component {
   }
 
   loader = () => (
-    <div className="products-loader-container">
+    <div className="products-loader-container" data-testid="loader">
       <Loader type="Oval" color="orange" height="50" width="50" />
     </div>
   )
@@ -134,8 +134,6 @@ class Cart extends Component {
         return this.getCartList()
       case 'progress':
         return this.loader()
-      case 'failure':
-        return this.failure()
       default:
         return null
     }

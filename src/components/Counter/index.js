@@ -82,6 +82,7 @@ class Counter extends Component {
           console.log(incBtn)
           const descBtn =
             home === 'cart' ? 'decrement-quantity' : 'decrement-count'
+          const count = home === 'cart' ? 'item-quantity' : 'active-count'
           return (
             <div className="button-container">
               <button
@@ -92,9 +93,11 @@ class Counter extends Component {
               >
                 -
               </button>
-              <div className="cart-value" testid="active-count">
-                <p testid="active-count"> {cartValue}</p>
-              </div>
+
+              <p testid={count} className="cart-value">
+                {cartValue}
+              </p>
+
               <button
                 type="button"
                 onClick={onIncrement}

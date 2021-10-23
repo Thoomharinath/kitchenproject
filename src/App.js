@@ -119,7 +119,7 @@ class App extends Component {
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute
             exact
-            path="/restaurants/:id"
+            path="/restaurant/:id"
             component={RestaurantDetails}
           />
           <ProtectedRoute exact path="/cart" component={Cart} />

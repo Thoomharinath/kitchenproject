@@ -80,11 +80,7 @@ class Carousel extends Component {
   }
 
   render() {
-    return (
-      <div className="container" testid="restaurants-offers-loader">
-        {this.loadingStatus()}
-      </div>
-    )
+    return <div className="container">{this.loadingStatus()}</div>
   }
 }
 

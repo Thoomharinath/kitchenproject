@@ -4,15 +4,11 @@ import './index.css'
 
 const RestaurantList = props => {
   const {list} = props
-  const {id, name, imageUrl, rating, cuisine} = list
+  const {id, name, imageUrl, rating, cuisine, review} = list
 
   return (
-    <Link
-      to={`/restaurants/${id}`}
-      className="link-details"
-      testid="restaurant-item"
-    >
-      <li className="restaurant-details">
+    <Link to={`/restaurant/${id}`} className="link-details">
+      <li className="restaurant-details" testid="restaurant-item">
         <img src={imageUrl} alt="restaurant" className="res-image" />
         <div className="rating-name-cuisine">
           <h1 className="res-name">{name}</h1>
@@ -24,6 +20,7 @@ const RestaurantList = props => {
               className="star"
             />
             <p className="rating">{rating}</p>
+            <h1>{review}</h1>
           </div>
         </div>
       </li>

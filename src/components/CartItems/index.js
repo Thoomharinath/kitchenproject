@@ -5,7 +5,7 @@ const CartItems = props => {
   const {items} = props
   const {name, imageUrl, cost, quantity} = items
   return (
-    <li className="list-cart">
+    <li className="list-cart" testid="cartItem">
       <div className="cart-name-img">
         <img src={imageUrl} alt="restaurant-id" className="cart-image" />
         <h1 className="cart-item-name">{name}</h1>

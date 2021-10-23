@@ -110,7 +110,7 @@ class RestaurantDetails extends Component {
           </div>
         </div>
         <div className="res-main-item-container">
-          <ul className="res-item-container" testid="foodItem">
+          <ul className="res-item-container">
             {dataResList.map(each => (
               <RestaurantItems key={each.id} resList={each} />
             ))}
@@ -123,7 +123,7 @@ class RestaurantDetails extends Component {
   loader = () => (
     <div
       className="products-loader-container"
-      testid="restaurants-details-loader"
+      testid="restaurant-details-loader"
     >
       <Loader type="Oval" color="orange" height={50} width={50} />
     </div>

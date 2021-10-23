@@ -10,18 +10,27 @@ const RestaurantItems = props => {
   return (
     <KitchenContext.Consumer>
       {value => {
-        const {onAddBtn, temporaryData, removeItem} = value
+        const {onAddBtn, removeItem} = value
+
+        let data = localStorage.getItem('cartData')
+        console.log('check', data)
+        let parsedData = []
+        if (data === null) {
+          data = localStorage.setItem('cartData', JSON.stringify([]))
+        } else {
+          parsedData = JSON.parse(data)
+        }
 
         const onCartAdd = () => {
           onAddBtn(resList)
         }
 
         const verify = () => {
-          const result = temporaryData.filter(each => each.name === name)
+          const result = parsedData.filter(each => each.name === name)
 
           if (result.length > 0) {
             if (result[0].quantity === 0) {
-              removeItem(temporaryData, result[0].name)
+              removeItem(parsedData, result[0].name)
               return false
             }
 
@@ -34,7 +43,7 @@ const RestaurantItems = props => {
 
         return (
           <li className="res-items" testid="foodItem">
-            <img src={imageUrl} alt="restaurant" className="res-item-image" />
+            <img src={imageUrl} alt="food-item" className="res-item-image" />
             <div className="res-item-details">
               <h1 className="item-name">{name}</h1>
               <p className="price">{cost}</p>
